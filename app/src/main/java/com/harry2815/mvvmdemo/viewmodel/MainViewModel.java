@@ -1,6 +1,6 @@
 package com.harry2815.mvvmdemo.viewmodel;
 
-import com.harry2815.mvvm.base.viewmodel.BaseViewModel;
+import com.harry2815.mvvm.arch.viewmodel.BaseViewModel;
 import com.harry2815.mvvmdemo.model.MainModel;
 
 import java.util.ArrayList;

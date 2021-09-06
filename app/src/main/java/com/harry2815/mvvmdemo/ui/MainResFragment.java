@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.harry2815.mvvm.base.ui.BaseWithViewBindingFragment;
+import com.harry2815.mvvm.arch.ui.BaseWithViewBindingFragment;
 import com.harry2815.mvvmdemo.R;
 import com.harry2815.mvvmdemo.bean.FaqBean;
 import com.harry2815.mvvmdemo.databinding.FragmentMainResBinding;

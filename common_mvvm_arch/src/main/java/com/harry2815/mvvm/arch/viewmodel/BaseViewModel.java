@@ -1,4 +1,4 @@
-package com.harry2815.mvvm.base.viewmodel;
+package com.harry2815.mvvm.arch.viewmodel;
 
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,8 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.harry2815.mvvm.base.bean.LoadingMessageBean;
-import com.harry2815.mvvm.base.model.BaseModel;
+import com.harry2815.mvvm.arch.bean.LoadingMessageBean;
+import com.harry2815.mvvm.arch.model.BaseModel;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

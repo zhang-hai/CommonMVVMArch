@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.harry2815.mvvm.base.ui.BaseActivity;
+import com.harry2815.mvvm.arch.ui.BaseActivity;
 import com.harry2815.mvvmdemo.R;
 import com.harry2815.mvvmdemo.bean.User;
 import com.harry2815.mvvmdemo.viewmodel.LoginViewModel;

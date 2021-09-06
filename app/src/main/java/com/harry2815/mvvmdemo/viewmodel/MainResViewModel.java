@@ -1,9 +1,7 @@
 package com.harry2815.mvvmdemo.viewmodel;
 
-import androidx.lifecycle.MutableLiveData;
-
-import com.harry2815.mvvm.base.model.HttpCallback;
-import com.harry2815.mvvm.base.viewmodel.BaseViewModel;
+import com.harry2815.mvvm.arch.model.HttpCallback;
+import com.harry2815.mvvm.arch.viewmodel.BaseViewModel;
 import com.harry2815.mvvmdemo.model.MainResModel;
 import com.harry2815.mvvmdemo.model.response.FaqListResponse;
 

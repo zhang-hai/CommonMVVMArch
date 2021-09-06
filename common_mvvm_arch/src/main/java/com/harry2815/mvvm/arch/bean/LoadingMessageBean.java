@@ -1,4 +1,4 @@
-package com.harry2815.mvvm.base.bean;
+package com.harry2815.mvvm.arch.bean;
 
 /**
  * Created by zhanghai on 2019/5/28.

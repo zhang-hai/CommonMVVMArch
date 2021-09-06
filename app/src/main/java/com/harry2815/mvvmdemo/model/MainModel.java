@@ -1,6 +1,6 @@
 package com.harry2815.mvvmdemo.model;
 
-import com.harry2815.mvvm.base.model.BaseModel;
+import com.harry2815.mvvm.arch.model.BaseModel;
 
 /**
  * Created by zhanghai on 2019/5/28.

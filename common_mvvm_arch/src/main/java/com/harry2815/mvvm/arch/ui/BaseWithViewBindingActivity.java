@@ -1,4 +1,4 @@
-package com.harry2815.mvvm.base.ui;
+package com.harry2815.mvvm.arch.ui;
 
 import android.os.Bundle;
 
@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 
-import com.harry2815.mvvm.base.viewmodel.BaseViewModel;
+import com.harry2815.mvvm.arch.viewmodel.BaseViewModel;
 
 /**
  * Created by zhanghai on 2021/9/6.

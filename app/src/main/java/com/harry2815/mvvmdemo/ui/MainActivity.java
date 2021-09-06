@@ -6,7 +6,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-import com.harry2815.mvvm.base.ui.BaseActivity;
+import com.harry2815.mvvm.arch.ui.BaseActivity;
 import com.harry2815.mvvmdemo.R;
 import com.harry2815.mvvmdemo.viewmodel.MainViewModel;
 

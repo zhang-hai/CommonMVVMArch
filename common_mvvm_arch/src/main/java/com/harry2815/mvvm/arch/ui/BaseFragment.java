@@ -1,4 +1,4 @@
-package com.harry2815.mvvm.base.ui;
+package com.harry2815.mvvm.arch.ui;
 
 import android.app.Dialog;
 
@@ -18,8 +18,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.harry2815.mvvm.R;
-import com.harry2815.mvvm.base.bean.LoadingMessageBean;
-import com.harry2815.mvvm.base.viewmodel.BaseViewModel;
+import com.harry2815.mvvm.arch.bean.LoadingMessageBean;
+import com.harry2815.mvvm.arch.viewmodel.BaseViewModel;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

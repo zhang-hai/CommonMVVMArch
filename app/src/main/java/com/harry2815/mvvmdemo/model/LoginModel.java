@@ -3,8 +3,8 @@ package com.harry2815.mvvmdemo.model;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.harry2815.mvvm.base.model.BaseModel;
-import com.harry2815.mvvm.base.model.HttpCallback;
+import com.harry2815.mvvm.arch.model.BaseModel;
+import com.harry2815.mvvm.arch.model.HttpCallback;
 import com.harry2815.mvvmdemo.bean.BaseResponse;
 import com.harry2815.mvvmdemo.bean.SAccountUtils;
 import com.harry2815.mvvmdemo.bean.TokenBean;
