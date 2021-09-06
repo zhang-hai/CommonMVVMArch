@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven' // ADD THIS
+group='com.github.zhang-hai'
+
+android {
+    compileSdkVersion 30
+
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+    }
+
+    //已包含视图绑定
+    dataBinding {
+        enabled true
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation var.appcompat
+    api var.lifecycle_extensions
+
+
+}

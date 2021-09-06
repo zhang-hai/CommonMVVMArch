@@ -1,0 +1,42 @@
+// 统一版本控制
+ext {
+    // Dependencies Version
+    version = [
+            junitVersion                : "4.12",
+            appcompatVersion            : "1.2.0",
+            constraintVersion           : "2.0.1",
+            recyclerViewVersion         : "1.2.0",
+            lifecycleVersion            : "2.2.0",
+            androidannotationsVersion   : "4.4.0",
+            multidexVersion             : "1.0.2",
+            okHttp3Version              : "3.7.0",
+            fastJsonVersion             : "1.2.28",
+            fastJsonAndroidVersion      : "1.2.28.android",
+            gsonVersion                 : "2.8.2",
+            glideVersion                : "3.8.0",
+            lottieVersion               : "2.7.0",
+            easySwipeMenuLayoutVersion  : "1.1.2",
+    ]
+
+    var = [
+            junit                         : "junit:junit:$version.junitVersion",
+            appcompat                     : "androidx.appcompat:appcompat:$version.appcompatVersion",
+            constraintLayout              : "androidx.constraintlayout:constraintlayout:$version.constraintVersion",
+            recyclerView                  : "androidx.recyclerview:recyclerview:$version.recyclerViewVersion",
+            lifecycle_extensions             : "androidx.lifecycle:lifecycle-extensions:$version.lifecycleVersion",
+            androidannotations            : "org.androidannotations:androidannotations-api:$version.androidannotationsVersion",
+            androidannotations_compiler   : "org.androidannotations:androidannotations:$version.androidannotationsVersion",
+            multidex                      : "com.android.support:multidex:$version.multidexVersion",
+            okHttp3                       : "com.squareup.okhttp3:okhttp:$version.okHttp3Version",
+            fastJson                      : "com.alibaba:fastjson:$version.fastJsonVersion",
+            fastJsonAndroid               : "com.alibaba:fastjson:$version.fastJsonAndroidVersion",
+            gson                          : "com.google.code.gson:gson:$version.gsonVersion",
+            // Glide
+            glide                         : "com.github.bumptech.glide:glide:$version.glideVersion",
+            glideCompiler                 : "com.github.bumptech.glide:compiler:$version.glideVersion",
+            glideLoaderOkhttp3            : "com.github.bumptech.glide:okhttp3-integration:$version.glideVersion",
+            // lottie动画
+            lottie                        : "com.airbnb.android:lottie:$version.lottieVersion",
+            easySwipeMenuLayout           : "com.github.anzaizai:EasySwipeMenuLayout:$version.easySwipeMenuLayoutVersion",
+    ]
+}
