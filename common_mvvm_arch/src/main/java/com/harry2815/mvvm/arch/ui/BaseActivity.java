@@ -3,6 +3,8 @@ package com.harry2815.mvvm.arch.ui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -32,8 +35,21 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     protected VM mViewModel;
     private Dialog progressDialog;
     //handler对象
-    protected Handler mHandler = new Handler();
+    protected Handler mHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            onHandleMessage(msg);
+        }
+    };
 
+    /**
+     * 消息处理
+     * @param msg
+     */
+    protected void onHandleMessage(Message msg){
+
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,16 +91,16 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
      * 注册loading的观察者
      */
     private void registerLoadingObserve(){
-        registerObserve(mViewModel.loadingMessageKey, new Observer<LoadingMessageBean>() {
-            @Override
-            public void onChanged(@Nullable LoadingMessageBean o) {
-                if(o.isShow){
-                    showLoading(o.message);
-                }else {
-                    hideLoading();
-                }
+        registerObserve(mViewModel.loadingMessageKey, (Observer<LoadingMessageBean>) value -> {
+            if(value != null && value.isShow){
+                showLoading(value.message);
+            }else {
+                hideLoading();
             }
         });
+
+        //注册监听toast事件
+        registerObserve(BaseViewModel.TOAST_KEY, (Observer<String>) s -> showToast(s));
     }
 
 
@@ -155,8 +171,12 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
 
     //隐藏加载框
     protected void hideLoading(){
-        if (progressDialog != null)
-            progressDialog.dismiss();
+        if (progressDialog != null){
+            if (progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+            progressDialog = null;
+        }
     }
 
     public void forceShowLoading(String msg) {

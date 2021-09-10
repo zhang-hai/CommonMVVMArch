@@ -23,6 +23,7 @@ public class BaseViewModel<M extends BaseModel> extends ViewModel {
     protected M mModel;
     protected LoadingMessageBean mLoadingBean;
     public final String loadingMessageKey = "loadingMessageKey";
+    public static final String TOAST_KEY = "toast_key";
 
     /**
      * 构造函数，初始化ArrayMap
@@ -83,6 +84,15 @@ public class BaseViewModel<M extends BaseModel> extends ViewModel {
         }
         mLoadingBean.isShow = false;
         postValue(loadingMessageKey,mLoadingBean);
+    }
+
+
+    /**
+     * 控制UI显示toast信息
+     * @param toast
+     */
+    protected void postToast(String toast){
+        get(TOAST_KEY).postValue(toast);
     }
 
 

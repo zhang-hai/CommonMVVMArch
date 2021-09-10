@@ -50,6 +50,13 @@ dependencies {
 
 BaseViewModel提供postValue(异步更新)、setValue(主线程同步更新)，直接通过设置一个key就可以自动创建需要的MutableLiveData对象,后续均可直接使用该key进行取值
 
+showLoading 显示loading弹窗（异步方式，支持在非主线程使用）
+
+hideLoading 隐藏loading弹窗(异步方式，支持在非主线程使用)
+
+postToast   显示Toast消息（异步方式，支持在非主线程使用）
+
+
 自定义的Model类继承值BaseModel
 
 

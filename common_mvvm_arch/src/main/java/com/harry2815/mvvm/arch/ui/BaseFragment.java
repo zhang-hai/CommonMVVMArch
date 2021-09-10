@@ -3,6 +3,8 @@ package com.harry2815.mvvm.arch.ui;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,7 +36,21 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     private Dialog progressDialog;
     protected BaseActivity mActivity;
     //handler对象
-    protected Handler mHandler = new Handler();
+    protected Handler mHandler = new Handler(Looper.getMainLooper()){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            onHandleMessage(msg);
+        }
+    };
+
+    /**
+     * 消息处理
+     * @param msg
+     */
+    protected void onHandleMessage(Message msg){
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,16 +89,16 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
      * 注册loading的观察者
      */
     private void registerLoadingObserve(){
-        registerObserve(mViewModel.loadingMessageKey, new Observer<LoadingMessageBean>() {
-            @Override
-            public void onChanged(@Nullable LoadingMessageBean o) {
-                if(o.isShow){
-                    showLoading(o.message);
-                }else {
-                    hideLoading();
-                }
+        registerObserve(mViewModel.loadingMessageKey, (Observer<LoadingMessageBean>) value -> {
+            if(value != null && value.isShow){
+                showLoading(value.message);
+            }else {
+                hideLoading();
             }
         });
+
+        //注册监听toast事件
+        registerObserve(BaseViewModel.TOAST_KEY, (Observer<String>) s -> showToast(s));
     }
 
     /**
@@ -157,8 +173,12 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     //隐藏加载框
     protected void hideLoading(){
-        if (progressDialog != null)
-            progressDialog.dismiss();
+        if (progressDialog != null){
+            if (progressDialog.isShowing()){
+                progressDialog.dismiss();
+            }
+            progressDialog = null;
+        }
     }
 
     //强制显示弹出框
