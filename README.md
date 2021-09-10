@@ -28,7 +28,7 @@ allprojects {
 
 ```groovy
 dependencies {
-        implementation 'com.github.zhang-hai:CommonMVVMArch:1.0.1'
+        implementation 'com.github.zhang-hai:CommonMVVMArch:1.0.2'
 }
 ```
 
