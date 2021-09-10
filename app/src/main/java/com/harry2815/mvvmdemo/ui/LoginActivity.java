@@ -1,11 +1,12 @@
 package com.harry2815.mvvmdemo.ui;
 
-import androidx.lifecycle.Observer;
 import android.content.Intent;
-import androidx.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 
 import com.harry2815.mvvm.arch.ui.BaseActivity;
 import com.harry2815.mvvmdemo.R;
@@ -35,7 +36,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @AfterViews
     void init(){
-        registerObserve(null, User.class, new Observer<User>() {
+        registerObserve(mViewModel.userKey,  new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {
                 if(user != null){

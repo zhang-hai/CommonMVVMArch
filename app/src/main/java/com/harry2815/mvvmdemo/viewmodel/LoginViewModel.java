@@ -3,14 +3,16 @@ package com.harry2815.mvvmdemo.viewmodel;
 import com.harry2815.mvvm.arch.model.HttpCallback;
 import com.harry2815.mvvm.arch.viewmodel.BaseViewModel;
 import com.harry2815.mvvmdemo.bean.User;
-import com.harry2815.mvvmdemo.model.response.UserInfoResponse;
 import com.harry2815.mvvmdemo.model.LoginModel;
+import com.harry2815.mvvmdemo.model.response.UserInfoResponse;
 
 /**
  * Created by zhanghai on 2019/5/24.
  * function：登录的ViewModel
  */
 public class LoginViewModel extends BaseViewModel<LoginModel> {
+
+    public final String userKey = "user";
 
     /**
      * login
@@ -28,7 +30,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
                 user.userId = result.getUserSimpleDTO().getId();
                 user.username = result.getUserSimpleDTO().getName();
                 user.avatar = result.getUserSimpleDTO().getPortraitUrl();
-                postValue(null,User.class,user);
+                postValue(userKey,user);
             }
 
             @Override

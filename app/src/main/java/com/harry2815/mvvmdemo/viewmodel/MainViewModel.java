@@ -15,7 +15,7 @@ public class MainViewModel extends BaseViewModel<MainModel> {
     public void postTestValue(){
         List<String> list = new ArrayList<>();
         list.add("这时来自postValue 集合的测试");
-        postValue("test", List.class,list);
+        postValue("test",list);
     }
 
 }

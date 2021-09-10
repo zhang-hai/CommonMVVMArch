@@ -8,8 +8,8 @@ import com.harry2815.mvvm.arch.model.HttpCallback;
 import com.harry2815.mvvmdemo.bean.BaseResponse;
 import com.harry2815.mvvmdemo.bean.SAccountUtils;
 import com.harry2815.mvvmdemo.bean.TokenBean;
-import com.harry2815.mvvmdemo.model.response.UserInfoResponse;
 import com.harry2815.mvvmdemo.model.request.LoginRequestBean;
+import com.harry2815.mvvmdemo.model.response.UserInfoResponse;
 
 import java.io.IOException;
 

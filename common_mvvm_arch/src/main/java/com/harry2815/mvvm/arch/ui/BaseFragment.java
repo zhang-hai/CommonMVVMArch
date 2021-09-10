@@ -1,21 +1,21 @@
 package com.harry2815.mvvm.arch.ui;
 
 import android.app.Dialog;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.harry2815.mvvm.R;
 import com.harry2815.mvvm.arch.bean.LoadingMessageBean;
@@ -73,7 +73,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
      * 注册loading的观察者
      */
     private void registerLoadingObserve(){
-        registerObserve(null, LoadingMessageBean.class, new Observer<LoadingMessageBean>() {
+        registerObserve(mViewModel.loadingMessageKey, new Observer<LoadingMessageBean>() {
             @Override
             public void onChanged(@Nullable LoadingMessageBean o) {
                 if(o.isShow){
@@ -88,13 +88,12 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     /**
      * 注册观察者
      * @param key key值，此处key值需要与postValue或setValue的key保持一致
-     * @param clazz 泛型类
      * @param observer 观察者接口
      * @param <T>
      */
-    public <T> void registerObserve(String key, Class<T> clazz, Observer<T> observer){
+    public <T> void registerObserve(String key, Observer<T> observer){
         if(mViewModel != null){
-            mViewModel.get(key,clazz).observe(this,observer);
+            mViewModel.get(key).observe(this,observer);
         }
     }
 
@@ -180,5 +179,12 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
         if (!progressDialog.isShowing()) {
             progressDialog.show();
         }
+    }
+
+    /**
+     * 显示toast
+     */
+    protected void showToast(String msg) {
+        mActivity.runOnUiThread(()-> Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show());
     }
 }

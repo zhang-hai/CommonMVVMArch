@@ -22,6 +22,7 @@ public class BaseViewModel<M extends BaseModel> extends ViewModel {
     private HashMap<String, MutableLiveData> maps;
     protected M mModel;
     protected LoadingMessageBean mLoadingBean;
+    public final String loadingMessageKey = "loadingMessageKey";
 
     /**
      * 构造函数，初始化ArrayMap
@@ -70,7 +71,7 @@ public class BaseViewModel<M extends BaseModel> extends ViewModel {
         }
         mLoadingBean.isShow = true;
         mLoadingBean.message = message;
-        postValue(null,LoadingMessageBean.class,mLoadingBean);
+        postValue(loadingMessageKey,mLoadingBean);
     }
 
     /**
@@ -81,60 +82,53 @@ public class BaseViewModel<M extends BaseModel> extends ViewModel {
             initLoadingMessageBean();
         }
         mLoadingBean.isShow = false;
-        postValue(null,LoadingMessageBean.class,mLoadingBean);
+        postValue(loadingMessageKey,mLoadingBean);
     }
+
 
     /**
      * 异步更新
      * @param key
-     * @param clazz
-     * @param value
-     * @param <T>
+     * @param <T> 要更新的value值
      */
-    protected <T> void postValue(String key,Class<T> clazz,@NonNull T value){
-        get(key,clazz).postValue(value);
+    protected <T> void postValue(String key,T value){
+        get(key).postValue(value);
     }
 
     /**
      * 同步更新,必须在主线程中调用
      * @param key
-     * @param clazz
      * @param value
-     * @param <T>
      */
-    protected <T> void setValue(String key,Class<T> clazz,@NonNull T value){
-        get(key,clazz).setValue(value);
+    protected <T> void setValue(String key,@NonNull T value){
+        get(key).setValue(value);
     }
 
     /**
-     * 根据指定的clazz从maps中查找相应的MutableLiveData对象
-     * @param clazz 指定的类
-     * @param <T>
-     * @return
+     * 通过key值，直接获取到当前对应的value值
+     * @param key
+     * @return value
      */
-    public  <T> MutableLiveData<T> get(@NonNull Class<T> clazz){
-        return get(null,clazz);
+    protected <T> T getValueByKey(@NonNull String key){
+        if (TextUtils.isEmpty(key)){
+            return null;
+        }
+        MutableLiveData<T> liveData = get(key);
+        return liveData.getValue();
     }
 
     /**
      * 根据key和clazz从maps中查找相应的MutableLiveData对象
      * @param key 指定的key
-     * @param clazz 指定的类
      * @param <T>
      * @return
      */
-    public  <T> MutableLiveData<T> get(final String key, @NonNull Class<T> clazz) {
-        String keyName = "";
-        if(TextUtils.isEmpty(key)){
-            keyName = clazz.getCanonicalName();
-        }else {
-            keyName = key;
-        }
-        MutableLiveData<T> mutableLiveData = maps.get(keyName);
+    public  <T> MutableLiveData<T> get(@NonNull final String key) {
+        MutableLiveData<T> mutableLiveData = maps.get(key);
         //为mutableLiveData为空，则进行初始化，并加入到maps中
         if(mutableLiveData == null){
-            mutableLiveData = new MutableLiveData<>();
-            maps.put(keyName,mutableLiveData);
+            mutableLiveData = new MutableLiveData<T>();
+            maps.put(key,mutableLiveData);
         }
         return mutableLiveData;
     }

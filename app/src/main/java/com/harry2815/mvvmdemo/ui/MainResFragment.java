@@ -33,7 +33,7 @@ public class MainResFragment extends BaseWithViewBindingFragment<MainResViewMode
 
     @Override
     protected void init(){
-        registerObserve(null,FaqListResponse.class,new Observer<FaqListResponse>() {
+        registerObserve(mViewModel.key,new Observer<FaqListResponse>() {
             @Override
             public void onChanged(@Nullable FaqListResponse faqListResponse) {
                 if(faqListResponse != null){

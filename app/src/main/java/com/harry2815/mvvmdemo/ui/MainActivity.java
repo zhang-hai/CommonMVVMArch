@@ -35,7 +35,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             getSupportFragmentManager().beginTransaction().show(fragment);
         }
 
-        registerObserve("test", List.class, new Observer<List>() {
+        registerObserve("test", new Observer<List>() {
             @Override
             public void onChanged(@Nullable List list) {
                 if(list != null && list.size() > 0){
