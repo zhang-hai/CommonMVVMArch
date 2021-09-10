@@ -28,7 +28,7 @@ allprojects {
 
 ```groovy
 dependencies {
-        implementation 'com.github.zhang-hai:common_mvvm_arch:1.0.0'
+        implementation 'com.github.zhang-hai:CommonMVVMArch:1.0.1'
 }
 ```
 
@@ -47,6 +47,8 @@ dependencies {
     ...
   }
 ```
+
+BaseViewModel提供postValue(异步更新)、setValue(主线程同步更新)，直接通过设置一个key就可以自动创建需要的MutableLiveData对象,后续均可直接使用该key进行取值
 
 自定义的Model类继承值BaseModel
 
