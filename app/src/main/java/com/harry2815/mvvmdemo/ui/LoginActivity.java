@@ -34,8 +34,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
     @ViewById(R.id.tv_login_result)
     TextView tv_login_result;
 
-    @AfterViews
-    void init(){
+    @Override
+    protected void registerLiveDataObserve() {
+        super.registerLiveDataObserve();
         registerObserve(mViewModel.userKey,  new Observer<User>() {
             @Override
             public void onChanged(@Nullable User user) {

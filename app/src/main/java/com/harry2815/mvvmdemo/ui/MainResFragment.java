@@ -32,7 +32,8 @@ public class MainResFragment extends BaseWithViewBindingFragment<MainResViewMode
     }
 
     @Override
-    protected void init(){
+    protected void registerLiveDataObserve() {
+        super.registerLiveDataObserve();
         registerObserve(mViewModel.key,new Observer<FaqListResponse>() {
             @Override
             public void onChanged(@Nullable FaqListResponse faqListResponse) {
@@ -46,7 +47,10 @@ public class MainResFragment extends BaseWithViewBindingFragment<MainResViewMode
                 }
             }
         });
+    }
 
+    @Override
+    protected void init(){
         initRecyclerView();
 
         mViewModel.getFaqList();

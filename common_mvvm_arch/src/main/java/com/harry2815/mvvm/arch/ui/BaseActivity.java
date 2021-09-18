@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.harry2815.mvvm.R;
 import com.harry2815.mvvm.arch.bean.LoadingMessageBean;
@@ -31,7 +30,7 @@ import java.lang.reflect.Type;
  * function：Activity基类
  */
 public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatActivity {
-    private ViewModelProvider viewModelProvider;
+    protected ViewModelProvider mViewModelProvider;
     protected VM mViewModel;
     private Dialog progressDialog;
     //handler对象
@@ -51,12 +50,31 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
 
     }
 
+    /**
+     * 获取ViewModelProvider对象
+     * @return
+     */
+    private ViewModelProvider getViewModelProvider(){
+        return new ViewModelProvider(this);
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        viewModelProvider = getViewModelProvider();
+        mViewModelProvider = getViewModelProvider();
         initViewModel();
-        registerLoadingObserve();
+        //注册事件
+        registerLiveDataObserve();
+    }
+
+    /**
+     * 注册observe，默认注册了loading、toast对应的observe
+     *
+     * 需要给新的LiveData注册observe时可重写该方法
+     *
+     */
+    protected void registerLiveDataObserve(){
+        registerBaseObserve();
     }
 
     /**
@@ -78,7 +96,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         //1.通过调用vmClass.newInstance();
         //2.通过使用viewModelProvider.get()
         //本例中使用第2中方式，因为在实例化的时候，viewModel会被ViewModelProvider管理起来
-        mViewModel = viewModelProvider.get(vmClass);
+        mViewModel = mViewModelProvider.get(vmClass);
 //        try {
 //            mViewModel = vmClass.newInstance();
 //        } catch (IllegalAccessException | InstantiationException e) {
@@ -90,7 +108,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     /**
      * 注册loading的观察者
      */
-    private void registerLoadingObserve(){
+    private void registerBaseObserve(){
         registerObserve(mViewModel.loadingMessageKey, (Observer<LoadingMessageBean>) value -> {
             if(value != null && value.isShow){
                 showLoading(value.message);
@@ -129,7 +147,7 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
     @Override
     protected void onDestroy() {
         Log.i("tag----->",getClass().getSimpleName() + " onDestroy");
-        viewModelProvider = null;
+        mViewModelProvider = null;
         //情况当前对象对应在消息队列中未执行完成的消息
         if (mHandler != null){
             mHandler.removeCallbacksAndMessages(null);
@@ -139,14 +157,6 @@ public abstract class BaseActivity<VM extends BaseViewModel> extends AppCompatAc
         super.onDestroy();
     }
 
-
-    /**
-     * 获取ViewModelProvider对象
-     * @return
-     */
-    public ViewModelProvider getViewModelProvider(){
-        return ViewModelProviders.of(this);
-    }
 
     /**
      * 显示加载弹窗

@@ -52,13 +52,34 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
 
     }
 
+    /**
+     * 使用与父类相同的ViewModel，实现Fragment和Activity数据共享,默认false<br/>
+     *
+     * <b>Note：当该方法返回true时，泛型VM必须与Activity使用同一个ViewModel</b>
+     * @return boolean
+     * <li>false：不共享数据</li>
+     * <li>true：需要通过ViewModel实现Fragment和Activity数据共享</li>
+     */
+    protected boolean useSameViewModelOfActivity(){
+        return false;
+    }
+
+    /**
+     * 初始化ViewModelProvider对象,
+     * 根据是否使用Activity的ViewModel实现数据共享进行设置对应的owner
+     * @return
+     */
+    private ViewModelProvider getViewModelProvider() {
+        return new ViewModelProvider(useSameViewModelOfActivity() ? mActivity : this);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mActivity = (BaseActivity) getActivity();
         viewModelProvider = getViewModelProvider();
         initViewModel();
-        registerLoadingObserve();
+        registerLiveDataObserve();
     }
 
     @Override
@@ -68,27 +89,56 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     }
 
     /**
+     * 注册observe，默认注册了loading、toast对应的observe
+     *
+     * 需要给新的LiveData注册observe时可重写该方法
+     *
+     */
+    protected void registerLiveDataObserve(){
+        registerBaseObserve();
+    }
+
+    /**
      * 创建View后执行init方法完成后续工作
      */
     protected abstract void init();
 
     private void initViewModel(){
-        Type superClazz = this.getClass().getGenericSuperclass();
+        Class<VM> vmClass = getVMClass(this.getClass());
+
+        //检测是否设置了与Activity使用相同的ViewModel实现数据共享，则需要检查设置的ViewModel是否与Activity中设置的是否一致
+        if (useSameViewModelOfActivity()){
+            Class<VM> vmAct = getVMClass(mActivity.getClass());
+            if (!vmClass.getName().equals(vmAct.getName())){
+                throw new RuntimeException("请与Activity设置的ViewModel泛型保持一致，即："+vmAct.getName());
+            }
+        }
+
+        mViewModel = viewModelProvider.get(vmClass);
+    }
+
+    /**
+     * 获取对应class类设置的第1个泛型参数对应的Class
+     * @param clazz
+     * @return
+     */
+    private Class<VM> getVMClass(Class<?> clazz){
+        Type superClazz = clazz.getGenericSuperclass();
         if(!(superClazz instanceof ParameterizedType)){
-            superClazz = this.getClass().getSuperclass().getGenericSuperclass();
+            superClazz = clazz.getSuperclass().getGenericSuperclass();
             if(!(superClazz instanceof ParameterizedType)){
                 throw new RuntimeException("请设置类泛型");
             }
         }
         ParameterizedType parameterizedType = (ParameterizedType) superClazz;
-        Class<VM> clazz = (Class<VM>) parameterizedType.getActualTypeArguments()[0];
-        mViewModel = viewModelProvider.get(clazz);
+        Class<VM> vmClazz = (Class<VM>) parameterizedType.getActualTypeArguments()[0];
+        return vmClazz;
     }
 
     /**
      * 注册loading的观察者
      */
-    private void registerLoadingObserve(){
+    private void registerBaseObserve(){
         registerObserve(mViewModel.loadingMessageKey, (Observer<LoadingMessageBean>) value -> {
             if(value != null && value.isShow){
                 showLoading(value.message);
@@ -133,15 +183,6 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
         }
         super.onDestroy();
     }
-
-    /**
-     * 初始化ViewModelProvider对象
-     * @return
-     */
-    private ViewModelProvider getViewModelProvider() {
-        return ViewModelProviders.of(this);
-    }
-
 
     /**
      * 显示加载弹窗

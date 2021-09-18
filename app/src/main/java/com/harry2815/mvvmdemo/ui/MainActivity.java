@@ -35,6 +35,18 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             getSupportFragmentManager().beginTransaction().show(fragment);
         }
 
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mViewModel.postTestValue();
+            }
+        },3000);
+    }
+
+
+    @Override
+    protected void registerLiveDataObserve() {
+        super.registerLiveDataObserve();
         registerObserve("test", new Observer<List>() {
             @Override
             public void onChanged(@Nullable List list) {
@@ -45,13 +57,5 @@ public class MainActivity extends BaseActivity<MainViewModel> {
                 }
             }
         });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                mViewModel.postTestValue();
-            }
-        },3000);
     }
-
-
 }
