@@ -113,3 +113,11 @@ postToast   显示Toast消息（异步方式，支持在非主线程使用）
 
 1.BaseFragment中新增` useSameViewModelOfActivity() `方法，支持Activity和Fragment使用同一个ViewModel实现数据共享。
 
+
+**V1.0.4**
+
+1.修改BaseFragment中订阅消息时机和订阅时设置的LifeCycleOwer，解决以下问题：
+
+- 在onViewCreate中订阅消息出现重复订阅问题；
+- 在onCreate中订阅导致Fragment出入栈View重建时造成View无法显示最新状态问题
+

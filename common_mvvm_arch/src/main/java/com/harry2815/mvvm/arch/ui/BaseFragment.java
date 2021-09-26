@@ -79,13 +79,17 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
         mActivity = (BaseActivity) getActivity();
         viewModelProvider = getViewModelProvider();
         initViewModel();
-        registerLiveDataObserve();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
+        /*
+         *订阅消息放到onViewCreated中，
+         *不再放到onCreate中因为当Fragment出入栈造成View重建时，重建后的View无法能显示最新状态
+         */
+        registerLiveDataObserve();
     }
 
     /**
@@ -93,6 +97,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
      *
      * 需要给新的LiveData注册observe时可重写该方法
      *
+     * 订阅消息放到onViewCreated中
      */
     protected void registerLiveDataObserve(){
         registerBaseObserve();
@@ -159,7 +164,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
      */
     public <T> void registerObserve(String key, Observer<T> observer){
         if(mViewModel != null){
-            mViewModel.get(key).observe(this,observer);
+            mViewModel.get(key).observe(getViewLifecycleOwner(),observer);
         }
     }
 
