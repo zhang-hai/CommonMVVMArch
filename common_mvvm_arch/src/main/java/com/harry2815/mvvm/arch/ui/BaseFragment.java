@@ -84,6 +84,9 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        registerBaseObserve();
+
         init();
         /*
          *订阅消息放到onViewCreated中，
@@ -100,7 +103,7 @@ public abstract class BaseFragment<VM extends BaseViewModel> extends Fragment {
      * 订阅消息放到onViewCreated中
      */
     protected void registerLiveDataObserve(){
-        registerBaseObserve();
+
     }
 
     /**
